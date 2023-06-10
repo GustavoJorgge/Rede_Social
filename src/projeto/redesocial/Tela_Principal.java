@@ -19,6 +19,7 @@ public class Tela_Principal {
 	private JTextPane txt_Dados;
 	private JLabel lbl_Id_User;
 	private JLabel lbl_User;
+	private int Id_UsuarioLogado;
 	/**
 	 * Launch the application.
 	 */
@@ -92,6 +93,9 @@ public class Tela_Principal {
 		JButton btn_Adicionar = new JButton("<html>ADICIONAR <br>   AMIGOS</html>");
 		btn_Adicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Tela_AdicionarAmigo telaAdicionarAmigo = new Tela_AdicionarAmigo();
+				telaAdicionarAmigo.setIdUsuario(Id_UsuarioLogado);
+				telaAdicionarAmigo.setVisible(true);
 			}
 		});
 		btn_Adicionar.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
@@ -119,9 +123,11 @@ public class Tela_Principal {
 	 */
 	public void exibirTelaPrincipal(Perfil perfilUsuario, Tela_Principal telaPrincipal) {
 		String perfil = perfilUsuario.getNome();
+		Amigo amigo = new Amigo();
 		JOptionPane.showMessageDialog(null, perfilUsuario.getNome());//Printei apenas para validar se nao estava nulo
 		this.txt_Dados.setText("Usuário: " + perfilUsuario.getNome() + "\nE-mail:" + perfilUsuario.getEmail());
 		this.lbl_Id_User.setText(""+perfilUsuario.getId());
+		Id_UsuarioLogado = perfilUsuario.getId();
 		this.lbl_User.setText(perfilUsuario.getNome());
 		telaPrincipal.frame.setVisible(true);
 	}

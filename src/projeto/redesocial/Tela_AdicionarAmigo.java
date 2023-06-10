@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -18,6 +20,11 @@ public class Tela_AdicionarAmigo {
 	private JFrame frame;
 	private JTextField txt_BuscaUsuario;
 	private JTextField txt_ID_Add;
+	private int idUsuarioLogado;
+	
+	public void setIdUsuario(int idUsuarioLogado) {
+		this.idUsuarioLogado = idUsuarioLogado;
+	}
 
 	/**
 	 * Launch the application.
@@ -39,7 +46,7 @@ public class Tela_AdicionarAmigo {
 	 * Create the application.
 	 */
 	public Tela_AdicionarAmigo() {
-		initialize();
+        initialize();
 	}
 
 	/**
@@ -85,6 +92,21 @@ public class Tela_AdicionarAmigo {
 		txt_ID_Add.setColumns(10);
 		
 		JButton btn_Adicionar = new JButton("ADICIONAR");
+		btn_Adicionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Amigo amigo = new Amigo();
+				
+				int id_amigo = Integer.parseInt(txt_ID_Add.getText());
+				
+				try {
+					amigo.adicionar_Amigo(idUsuarioLogado,id_amigo);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		btn_Adicionar.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
 		btn_Adicionar.setBounds(22, 496, 164, 37);
 		frame.getContentPane().add(btn_Adicionar);
@@ -116,5 +138,9 @@ public class Tela_AdicionarAmigo {
 		btn_Buscar.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
 		btn_Buscar.setBounds(268, 125, 148, 35);
 		frame.getContentPane().add(btn_Buscar);
+	}
+
+	public void setVisible(boolean b) {
+		frame.setVisible(true);		
 	}
 }

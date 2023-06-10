@@ -38,6 +38,7 @@ public class Tela_Inicial {
 	 * Create the application.
 	 */
 	public Tela_Inicial() {
+		
 		initialize();
 	}
 
