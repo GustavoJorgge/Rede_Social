@@ -79,6 +79,8 @@ public class Tela_Inicial {
 		btn_Logar.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
 				 realizarLogin();
+				 txt_Password.setText("");//limpando campo apos realizar login
+				 txt_Email.setText("");//limpando banco apos realizar login
 			 }
 			 });
 		btn_Logar.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
@@ -121,7 +123,7 @@ public class Tela_Inicial {
 	        perfil = perfil.obterPerfilUsuario(perfil); //chamando o metodo para retornar os dados do usuario
 	        
 	        if (perfil != null) {
-	            telaPrincipal.exibirTelaPrincipal(perfil,telaPrincipal);
+	            telaPrincipal.exibirTelaPrincipal(perfil,telaPrincipal); //Passando por parametro o perfil e a tela principal
 	        } else {
 	            JOptionPane.showMessageDialog(null, "Não foi possível obter o perfil do usuário.", "Erro!", JOptionPane.ERROR_MESSAGE);
 	        }

@@ -65,6 +65,15 @@ public class Perfil {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	
 	/*
 	 * Metodo para obter os dados do usuario
 	 */
@@ -81,6 +90,8 @@ public class Perfil {
 	            String email = resultSet.getString("user_email");
 	            String senha = resultSet.getString("senha");
 	            String endereco = resultSet.getString("endereco");
+	            //Atribuindo os valores no objeto perfil
+	            perfil.setId(id);
 	            perfil.setNome(nome);
 	            perfil.setEmail(email);
 	            perfil.setSenha(senha);
