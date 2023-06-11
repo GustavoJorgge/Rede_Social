@@ -18,6 +18,8 @@
 ## Requisitos
 
 - **Login:** O Usuario ira realizar login apenas se possuir cadastro.
+- **Conexões de Amizades:** O usuario pode conectar com outro usuario.<br> O usuario não consegue conectar com você mesmo ou ter duplicidade de conexões
+- **Login:** O Usuario ira realizar login apenas se possuir cadastro.
 - **Mensagens:** O Usuario só ira enviar mensagens a quem ele tiver conexao
 - **CRUD:** Os usuarios e as mensagens deverão ser armazenadas no banco de Dados.
 
