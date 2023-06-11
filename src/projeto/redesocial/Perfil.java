@@ -1,6 +1,7 @@
 package projeto.redesocial;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,18 +21,20 @@ public class Perfil {
 	private String email;
 	private String senha;
 	private String endereco;
+	private Date dta_criacao;
 	
 	public Perfil() {
 		
 	}
 	
-	public Perfil(int id, String nome, String email, String senha, String endereco) {
+	public Perfil(int id, String nome, String email, String senha, String endereco, Date dta_criacao) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
 		this.endereco = endereco;
+		this.dta_criacao = dta_criacao;
 	}
 
 	public String getNome() {
@@ -73,10 +76,21 @@ public class Perfil {
 		this.id = id;
 	}
 	
+	public Date getDta_criacao() {
+		return dta_criacao;
+	}
+
+	public void setDta_criacao(Date dta_criacao) {
+		this.dta_criacao = dta_criacao;
+	}
+
+	
+	
 	
 	/*
 	 * Metodo para obter os dados do usuario
 	 */
+	
 	public Perfil obterPerfilUsuario(Perfil perfil) {
 	    try (Connection connection = DriverManager.getConnection(url, user, password);
 	         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM usuarios WHERE user_email = ?")) {
@@ -90,13 +104,14 @@ public class Perfil {
 	            String email = resultSet.getString("user_email");
 	            String senha = resultSet.getString("senha");
 	            String endereco = resultSet.getString("endereco");
+	            Date dta_criacao = resultSet.getDate("data_criacao");
 	            //Atribuindo os valores no objeto perfil
 	            perfil.setId(id);
 	            perfil.setNome(nome);
 	            perfil.setEmail(email);
 	            perfil.setSenha(senha);
 	            perfil.setEndereco(endereco);
-	            JOptionPane.showMessageDialog(null, "nome: " + perfil.getNome() + " email: " + perfil.getEmail());
+	            perfil.setDta_criacao(dta_criacao);
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();

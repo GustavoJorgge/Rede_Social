@@ -159,8 +159,18 @@ public class Tela_Cadastro {
 			}
 		});
 		btn_Cadastrar.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
-		btn_Cadastrar.setBounds(180, 511, 139, 36);
+		btn_Cadastrar.setBounds(179, 489, 139, 36);
 		frame.getContentPane().add(btn_Cadastrar);
+		
+		JButton btn_Voltar = new JButton("VOLTAR");
+		btn_Voltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
+		btn_Voltar.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
+		btn_Voltar.setBounds(364, 544, 120, 36);
+		frame.getContentPane().add(btn_Voltar);
 			
 	}
 	

@@ -19,7 +19,24 @@ public class Tela_Principal {
 	private JTextPane txt_Dados;
 	private JLabel lbl_Id_User;
 	private JLabel lbl_User;
-	private int Id_UsuarioLogado;
+	private int Id_UsuarioLogado; // variavel para armazenar o id do usuario logado
+	
+	
+	
+	public Tela_Principal(int id_UsuarioLogado) {
+		super();
+		Id_UsuarioLogado = id_UsuarioLogado;
+	}
+	
+	//retornando o ID do usuario logado
+	public int getId_UsuarioLogado() {
+	    return this.Id_UsuarioLogado;
+	}
+
+	public void setId_UsuarioLogado(int id_UsuarioLogado) {
+		Id_UsuarioLogado = id_UsuarioLogado;
+	}
+
 	/**
 	 * Launch the application.
 	 */
@@ -86,15 +103,21 @@ public class Tela_Principal {
 		frame.getContentPane().add(lbl_Dados);
 		
 		JButton btn_Amigos = new JButton("AMIGOS");
+		btn_Amigos.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        Tela_Amigos telaAmigos = new Tela_Amigos(getId_UsuarioLogado());//Passando por parametro o id do usuario logado
+		        telaAmigos.setVisible(true);
+		    }
+		});
 		btn_Amigos.setFont(new Font("Comic Sans MS", Font.BOLD, 19));
 		btn_Amigos.setBounds(52, 432, 181, 50);
 		frame.getContentPane().add(btn_Amigos);
 		
-		JButton btn_Adicionar = new JButton("<html>ADICIONAR <br>   AMIGOS</html>");
+		JButton btn_Adicionar = new JButton("<html>ADICIONAR <br>   AMIGOS</html>");//quebrando linha dentro do botao
 		btn_Adicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Tela_AdicionarAmigo telaAdicionarAmigo = new Tela_AdicionarAmigo();
-				telaAdicionarAmigo.setIdUsuario(Id_UsuarioLogado);
+				telaAdicionarAmigo.setIdUsuario(getId_UsuarioLogado()); // passando por parametro o id do usuario logado
 				telaAdicionarAmigo.setVisible(true);
 			}
 		});
@@ -120,15 +143,16 @@ public class Tela_Principal {
 	
 	/*
 	 * Metodo para iniciar a tela principal
+	 * Este metodo esta recebendo o objeto do usuario que logou e a tela principal
+	 * Neste metodo estamos deixando a tela principal com os dados do usuario que esta logado
+	 * 
 	 */
 	public void exibirTelaPrincipal(Perfil perfilUsuario, Tela_Principal telaPrincipal) {
-		String perfil = perfilUsuario.getNome();
-		Amigo amigo = new Amigo();
-		JOptionPane.showMessageDialog(null, perfilUsuario.getNome());//Printei apenas para validar se nao estava nulo
-		this.txt_Dados.setText("Usuário: " + perfilUsuario.getNome() + "\nE-mail:" + perfilUsuario.getEmail());
+		this.txt_Dados.setText("Usuário: " + perfilUsuario.getNome() + "\nE-mail:" + perfilUsuario.getEmail() + "\nEndereco:" + perfilUsuario.getEndereco() + "\nUsuario criado em: " + perfilUsuario.getDta_criacao());
 		this.lbl_Id_User.setText(""+perfilUsuario.getId());
-		Id_UsuarioLogado = perfilUsuario.getId();
+		Id_UsuarioLogado = perfilUsuario.getId(); //recebendo o valor do usuario logado
 		this.lbl_User.setText(perfilUsuario.getNome());
+		telaPrincipal.setId_UsuarioLogado(Id_UsuarioLogado);
 		telaPrincipal.frame.setVisible(true);
 	}
 

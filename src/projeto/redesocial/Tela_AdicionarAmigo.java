@@ -20,11 +20,18 @@ public class Tela_AdicionarAmigo {
 	private JFrame frame;
 	private JTextField txt_BuscaUsuario;
 	private JTextField txt_ID_Add;
-	private int idUsuarioLogado;
-	
+	protected int idUsuarioLogado; // variavel para armazenar o id de quem esta conectado
+
+	//Metodo para receber o id do usuario conectado
 	public void setIdUsuario(int idUsuarioLogado) {
 		this.idUsuarioLogado = idUsuarioLogado;
 	}
+	
+	
+	public int getIdUsuarioLogado() {
+		return idUsuarioLogado;
+	}
+
 
 	/**
 	 * Launch the application.
@@ -99,6 +106,7 @@ public class Tela_AdicionarAmigo {
 				int id_amigo = Integer.parseInt(txt_ID_Add.getText());
 				
 				try {
+					//passando por parametro o id do usuario conectado e o id do amigo que deseja adicionar
 					amigo.adicionar_Amigo(idUsuarioLogado,id_amigo);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block

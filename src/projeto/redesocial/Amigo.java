@@ -22,14 +22,22 @@ public class Amigo {
 	Connection conn = null;
 	
 	StringBuilder resultado_consulta;
+	StringBuilder Lista_amigos;
 	
 	public Amigo() {
 		resultado_consulta = new StringBuilder(); // Inicializar o StringBuilder
+		Lista_amigos = new StringBuilder();
+		
 	}
 	
 	public StringBuilder getResultadoConsulta() {
 		return resultado_consulta;
 	}
+	
+	public StringBuilder getListaAmigos() {
+		return Lista_amigos;
+	}
+	
 		
 	public Connection connect() {
 			
@@ -54,6 +62,14 @@ public class Amigo {
 			return conn;
 		}
 	
+	
+	/*
+	 * metodo para adicionar o amigo que o usuario digitar
+	 * Condiçoes:
+	 * 	O usuario não consegue voce mesmo
+	 * 	O usuario não consegue adicionar um usuario que não esta cadastrado
+	 * 	O usuario adiciona apenas ID's que estejam disponiveis
+	 */
 	void adicionar_Amigo(int id_usuario, int id_amigo) throws SQLException {
 		Connection connection = DriverManager.getConnection(url, user, password);
 		int aux = 0;
@@ -76,6 +92,10 @@ public class Amigo {
 		}else { //Se o id for nulo (ou seja, não possui no banco) não adicionara nenhum
 			JOptionPane.showMessageDialog(null,"Não foi encontrado nenhum usuario!","Usuario invalido!",JOptionPane.ERROR_MESSAGE);
 		}
+		
+		resultSet.close();
+        preparedStatement.close();
+        connection.close();
 	}
 	
 	//Metodo para buscar todos usuarios que começam com os caracteres digitados	 
@@ -90,6 +110,7 @@ public class Amigo {
         //Loop para receber e armazenar em uma variavel todos os usuarios
         while(resultSet.next()) {
        	 int id = resultSet.getInt("id_User");
+       	 id_Usuario = id;
        	 String nome = resultSet.getString("user_name");
        	 String email = resultSet.getString("user_email");
        	 String endereco = resultSet.getString("endereco");
@@ -97,7 +118,7 @@ public class Amigo {
        	 //Atribuindo os valores para realizar a impressao de todos usuarios na tela
 	    	 resultado_consulta.append("Id usuario: ").append(id).append("\n");
 	         resultado_consulta.append("Nome: ").append(nome).append("\n");
-	         resultado_consulta.append("Email: ").append(email).append("\n");
+	         resultado_consulta.append("E-mail: ").append(email).append("\n");
 	         resultado_consulta.append("Local:").append(endereco).append("\n");
 	         resultado_consulta.append("------------------------------------\n");
         }
@@ -107,7 +128,30 @@ public class Amigo {
         connection.close();
 	}
 	
-	void excluir_Amigo() {
+	/*
+	 * Metodo para listar todos os amigos que estao conectados na tabela 
+	 * Lista amigos com o usuario que esta logado.
+	 * o metodo recebe como parametro o ID do usuario que esta logado e 
+	 * executa uma query que busca no banco todos os usuarios conectados.
+	 */
+	void listar_Amigos(int id_Usuario) throws SQLException {
+		Connection connection = DriverManager.getConnection(url, user, password);
+		String QUERY_LISTAAMIGOS = "SELECT u.user_name AS nome_amigo, u.user_email AS email_amigo FROM lista_amigos la JOIN usuarios u ON u.id_user = la.id_amigo WHERE la.id_usuario = " + id_Usuario + ";";
+		PreparedStatement preparedStatement = connection.prepareStatement(QUERY_LISTAAMIGOS);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		JOptionPane.showMessageDialog(null,id_Usuario);
+		while(resultSet.next()) {
+			String nome = resultSet.getString("nome_amigo");
+			String email = resultSet.getString("email_amigo");
+			
+			Lista_amigos.append("Nome: ").append(nome).append("\n");
+			Lista_amigos.append("E-mail: ").append(email).append("\n");
+			Lista_amigos.append("----------------------------------------\n");
+		}
+		
+		resultSet.close();
+        preparedStatement.close();
+        connection.close();
 		
 	}
 	
