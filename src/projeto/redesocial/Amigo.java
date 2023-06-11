@@ -71,31 +71,47 @@ public class Amigo {
 	 * 	O usuario adiciona apenas ID's que estejam disponiveis
 	 */
 	void adicionar_Amigo(int id_usuario, int id_amigo) throws SQLException {
-		Connection connection = DriverManager.getConnection(url, user, password);
-		int aux = 0;
-		
-		String QUERY_VALIDAR = "select * from usuarios where id_user = " + id_amigo; //Query para buscar o id do amigo digitado
+	    Connection connection = DriverManager.getConnection(url, user, password);
+	    int aux = 0;
+
+	    String QUERY_VALIDAR = "select * from usuarios where id_user = " + id_usuario; //Query para buscar o id do amigo digitado
 		PreparedStatement preparedStatement = connection.prepareStatement(QUERY_VALIDAR);
 		ResultSet resultSet = preparedStatement.executeQuery();
-		
-		 while(resultSet.next()) {//loop para verificar todos usuarios
-        	 aux = resultSet.getInt("id_user");//armazenando o id do resultado da consulta
-		 }
-		 
-		if(aux == id_usuario ) { //condição para nao conseguir conectar consigo mesmo
-			JOptionPane.showMessageDialog(null,"Não é possivel conectar consigo mesmo, entre com outro usuario!","Erro!",JOptionPane.ERROR_MESSAGE);
-		}else if(aux!=0) { // Só ira adicionar se for um usuario valido no banco.
-			String QUERY_ADICIONAR = "insert into lista_amigos (id_usuario, id_amigo) values (" + id_usuario +"," + id_amigo +")";
-			PreparedStatement preparedStatementAdicionar = connection.prepareStatement(QUERY_ADICIONAR);
-	        preparedStatementAdicionar.executeUpdate();
-			JOptionPane.showMessageDialog(null,"adicionado com sucesso");
-		}else { //Se o id for nulo (ou seja, não possui no banco) não adicionara nenhum
-			JOptionPane.showMessageDialog(null,"Não foi encontrado nenhum usuario!","Usuario invalido!",JOptionPane.ERROR_MESSAGE);
+
+	    while(resultSet.next()) {//loop para verificar todos usuarios
+	    	aux = resultSet.getInt("id_user");//armazenando o id do resultado da consulta
 		}
-		
-		resultSet.close();
-        preparedStatement.close();
-        connection.close();
+
+	    if (aux == id_usuario) {
+	        JOptionPane.showMessageDialog(null, "Não é possível conectar consigo mesmo, entre com outro usuário!", "Erro!", JOptionPane.ERROR_MESSAGE);
+	    } else if (aux != 0) {
+	    	//Query para validar se o usuario ja esta conectado
+	        String QUERY_VERIFICAR_EXISTENCIA = "SELECT COUNT(*) AS count FROM lista_amigos WHERE id_usuario =" + id_usuario +  "AND id_amigo =" + id_amigo;
+	        PreparedStatement preparedStatementVerificar = connection.prepareStatement(QUERY_VERIFICAR_EXISTENCIA);
+	        preparedStatementVerificar.setInt(1, id_usuario);
+	        preparedStatementVerificar.setInt(2, id_amigo);
+	        ResultSet resultSetVerificar = preparedStatementVerificar.executeQuery();
+	        
+	        if (resultSetVerificar.next()) {
+	            int count = resultSetVerificar.getInt("count");//recebendo o resultado da query
+	            if (count > 0) {//se for maior que 0 signifca que o usuario ja esta conectado
+	                JOptionPane.showMessageDialog(null, "Você já está conectado a esse amigo!", "Erro!", JOptionPane.ERROR_MESSAGE);
+	            } else {// se não executa a conexão entre amigos
+	                String QUERY_ADICIONAR = "INSERT INTO lista_amigos (id_usuario, id_amigo) VALUES (" + id_usuario + "," + id_amigo +")";
+	                PreparedStatement preparedStatementAdicionar = connection.prepareStatement(QUERY_ADICIONAR);
+	                preparedStatementAdicionar.setInt(1, id_usuario);
+	                preparedStatementAdicionar.setInt(2, id_amigo);
+	                preparedStatementAdicionar.executeUpdate();
+	                JOptionPane.showMessageDialog(null, "Adicionado com sucesso!");
+	            }
+	        }
+	    } else {//Caso insira id invalido
+	        JOptionPane.showMessageDialog(null, "Não foi encontrado nenhum usuário!", "Usuário inválido!", JOptionPane.ERROR_MESSAGE);
+	    }
+
+	    resultSet.close();
+	    preparedStatement.close();
+	    connection.close();
 	}
 	
 	//Metodo para buscar todos usuarios que começam com os caracteres digitados	 
@@ -119,13 +135,13 @@ public class Amigo {
 	    	 resultado_consulta.append("Id usuario: ").append(id).append("\n");
 	         resultado_consulta.append("Nome: ").append(nome).append("\n");
 	         resultado_consulta.append("E-mail: ").append(email).append("\n");
-	         resultado_consulta.append("Local:").append(endereco).append("\n");
+	         resultado_consulta.append("Local: ").append(endereco).append("\n");
 	         resultado_consulta.append("------------------------------------\n");
         }
         
         resultSet.close();
         preparedStatement.close();
-        connection.close();
+        connection.close();	
 	}
 	
 	/*
@@ -155,4 +171,14 @@ public class Amigo {
 		
 	}
 	
+	/*
+	 * Metodo para desfazer amizade
+	 */
+	void deletar_Amigo(int id_Usuario, int id_Amigo) throws SQLException {
+		Connection connection = DriverManager.getConnection(url, user, password);
+		String QUERY_DELETAR = "DELETE FROM lista_amigos WHERE id_usuario =" + id_Usuario + "AND id_amigo =" + id_Amigo +";";
+		
+		PreparedStatement preparedStatement = connection.prepareStatement(QUERY_DELETAR);
+        preparedStatement.executeUpdate();
+	}
 }
