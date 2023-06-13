@@ -86,7 +86,7 @@ public class Tela_Amigos extends Tela_AdicionarAmigo {
 		btn_DeletarAmigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Tela_DesfazerAmizade telaDesfazerAmizade = new Tela_DesfazerAmizade(idUsuarioLogado);
-				
+				telaDesfazerAmizade.setVisible(true);
 			}
 		});
 		btn_DeletarAmigo.setFont(new Font("Comic Sans MS", Font.BOLD, 16));

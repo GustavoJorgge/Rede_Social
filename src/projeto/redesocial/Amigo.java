@@ -1,5 +1,6 @@
 package projeto.redesocial;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -177,17 +178,17 @@ public class Amigo {
 	
 	/*
 	 * Metodo para desfazer amizade
+	 * Recebe por parametro o ID do usuario logado e amigo
+	 * Deleta 
 	 */
-	void deletar_Amigo(int id_Usuario, int id_Amigo) throws SQLException {
-		Connection connection = DriverManager.getConnection(url, user, password);
-		String QUERY_DELETAR = "DELETE FROM lista_amigos WHERE id_usuario =" + id_Usuario + "AND id_amigo =" + id_Amigo +";";
-		
-		PreparedStatement preparedStatement = connection.prepareStatement(QUERY_DELETAR);
-        preparedStatement.executeUpdate();
-        
-        JOptionPane.showMessageDialog(null,"Amizade desfeita!! ");
-        
-        preparedStatement.close();
-        connection.close();
+	void deletar_Amigo(int id_Usuario, int id_Amigo) throws SQLException, IOException {
+	    Connection connection = DriverManager.getConnection(url, user, password);
+	    String QUERY_DELETAR = "DELETE FROM lista_amigos WHERE id_usuario = " + id_Usuario + " AND id_amigo = " + id_Amigo + ";";
+	    PreparedStatement preparedStatement = connection.prepareStatement(QUERY_DELETAR);
+	    preparedStatement.executeUpdate();
+	    preparedStatement.close();
+	    connection.close();
+
+	    JOptionPane.showMessageDialog(null, "Amizade desfeita!!");
 	}
 }

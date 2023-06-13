@@ -107,8 +107,10 @@ public class Usuario {
 	
 	private final String QUERY_CADASTRAR = "insert into usuarios (user_name, user_email, senha, endereco) values (?,?,?,?)";
 	
+	/*
+	 * Metodo que recebe por parametro o objeto usuario e cadastra no banco de dados
+	 */
 	public void cadastraUsuario(Usuario usuario) {
-		JOptionPane.showMessageDialog(null,QUERY_CADASTRAR);
 		
 		try (Connection connection = DriverManager.getConnection(url, user, password);
 				PreparedStatement preparedStatement = connection.prepareStatement(QUERY_CADASTRAR)){//final do TRY

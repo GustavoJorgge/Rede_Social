@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
@@ -104,6 +105,13 @@ public class Tela_DesfazerAmizade extends Tela_AdicionarAmigo{
 		JButton btn_Remover = new JButton("REMOVER");
 		btn_Remover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Amigo amigo = new Amigo();
+				int idAmigo = Integer.parseInt(txt_Id_Amigo.getText());
+				try {
+					amigo.deletar_Amigo(idUsuarioLogado, idAmigo);
+				} catch (SQLException | IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		btn_Remover.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
@@ -119,5 +127,9 @@ public class Tela_DesfazerAmizade extends Tela_AdicionarAmigo{
 		btn_Voltar.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
 		btn_Voltar.setBounds(266, 480, 164, 37);
 		frame.getContentPane().add(btn_Voltar);
+	}
+	
+	public void setVisible(boolean b) {
+		frame.setVisible(true);		
 	}
 }
