@@ -11,7 +11,7 @@ import java.util.Date;
 
 import javax.swing.JOptionPane;
 
-public class Usuario {
+public class Usuario extends Perfil {
 	
 
 	private final String url = "jdbc:postgresql://localhost/BDredeSocial";
@@ -19,21 +19,20 @@ public class Usuario {
 	private final String password = "Gustavo@";
 	Connection conn = null;
 	
-	private static int id_Usuario;
+	private int id_Usuario;
 	private String nome;
 	private String email;
 	private String senha;
 	private String endereco;
-	private Date dta_Criacao;
+	
+	public Usuario() {}
 	
 	public Usuario(String nome, String email, String senha, String endereco) {
-		super();
-		this.id_Usuario += 1;
+		super();		
 		this.nome = nome;
 		this.email = email;
 		 this.senha = senha;
 		this.endereco = endereco;
-		this.dta_Criacao = new Date();
 	}
 
 	public int getId_Usuario() {
@@ -125,8 +124,74 @@ public class Usuario {
 			        connection.close();
 			}catch(SQLException e) {
 				JOptionPane.showConfirmDialog(null, e);
-			}	
+			}			
+	}
+	/*
+	 * Abaixo nos teremos os metodos que possibilitarão o usuario de editar um de seus dados cadastrais
+	 * Como:
+	 * 		Nome
+	 * 		E-mail
+	 * 		Senha
+	 */
+	public void editarNome(int id_Usuario,String atualizacao) throws SQLException {
+		String QUERY_EDITAR_NOME = "UPDATE usuarios SET user_name = '" + atualizacao + "'WHERE id_user = " + id_Usuario;
+		Connection connection = DriverManager.getConnection(url, user, password);
 		
+		PreparedStatement preparedStatement = connection.prepareStatement(QUERY_EDITAR_NOME);
+        preparedStatement.executeUpdate();
+        
+        preparedStatement.executeUpdate();
+		preparedStatement.close();
+        connection.close();
 	}
 	
+	public void editarEmail(int id_Usuario,String atualizacao) throws SQLException {
+		String QUERY_EDITAR_EMAIL = "UPDATE usuarios SET user_email = '" + atualizacao + "'WHERE id_user = " + id_Usuario;
+		Connection connection = DriverManager.getConnection(url, user, password);
+		
+		PreparedStatement preparedStatement = connection.prepareStatement(QUERY_EDITAR_EMAIL);
+        preparedStatement.executeUpdate();
+        
+        preparedStatement.executeUpdate();
+		preparedStatement.close();
+        connection.close();
+	}
+	
+	public void editarSenha(int id_Usuario,String atualizacao) throws SQLException {
+		String QUERY_EDITAR_SENHA = "UPDATE usuarios SET senha = '" + atualizacao + "'WHERE id_user = " + id_Usuario;
+		Connection connection = DriverManager.getConnection(url, user, password);
+		
+		PreparedStatement preparedStatement = connection.prepareStatement(QUERY_EDITAR_SENHA);
+        preparedStatement.executeUpdate();
+        
+        preparedStatement.executeUpdate();
+		preparedStatement.close();
+        connection.close();
+	}
+	
+	public Usuario obterPerfilUsuario(int idUsuario) {
+	    Usuario aux = null; // Inicialize a variável aux
+
+	    try (Connection connection = DriverManager.getConnection(url, user, password);
+	         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM usuarios WHERE Id_user = ?")) {
+	        
+	        preparedStatement.setInt(1, idUsuario);
+	        ResultSet resultSet = preparedStatement.executeQuery();
+	        
+	        if (resultSet.next()) {
+	            int id = resultSet.getInt("Id_user");
+	            String nome = resultSet.getString("user_name");
+	            String email = resultSet.getString("user_email");
+	            String senha = resultSet.getString("senha");
+	            String endereco = resultSet.getString("endereco");
+	            // Crie uma instância de Usuario e atribua valores a ela
+	            aux = new Usuario(nome, email, senha, endereco);
+	            JOptionPane.showMessageDialog(null,aux.getNome());
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return aux; // retorna o objeto com os dados do usuario
+	}
 }

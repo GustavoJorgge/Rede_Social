@@ -16,17 +16,17 @@ import java.awt.event.ActionEvent;
 public class Tela_Principal {
 
 	private JFrame frame;
-	private JTextPane txt_Dados;
+	protected JTextPane txt_Dados;
 	private JLabel lbl_Id_User;
 	private JLabel lbl_User;
 	private int Id_UsuarioLogado; // variavel para armazenar o id do usuario logado
 	
 	
 	
-	public Tela_Principal(int id_UsuarioLogado) {
-		super();
-		Id_UsuarioLogado = id_UsuarioLogado;
-	}
+	   public Tela_Principal(int id_UsuarioLogado) {
+	        Id_UsuarioLogado = id_UsuarioLogado;
+	        initialize();
+	    }
 	
 	//retornando o ID do usuario logado
 	public int getId_UsuarioLogado() {
@@ -93,7 +93,7 @@ public class Tela_Principal {
 		txt_Dados = new JTextPane();
 		txt_Dados.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
 		txt_Dados.setEditable(false);
-		txt_Dados.setBounds(66, 199, 359, 194);
+		txt_Dados.setBounds(66, 199, 359, 161);
 		frame.getContentPane().add(txt_Dados);
 		
 		JLabel lbl_Dados = new JLabel("Seus dados:");
@@ -110,7 +110,7 @@ public class Tela_Principal {
 		    }
 		});
 		btn_Amigos.setFont(new Font("Comic Sans MS", Font.BOLD, 19));
-		btn_Amigos.setBounds(52, 432, 181, 50);
+		btn_Amigos.setBounds(52, 384, 181, 50);
 		frame.getContentPane().add(btn_Amigos);
 		
 		JButton btn_Adicionar = new JButton("<html>ADICIONAR <br>   AMIGOS</html>");//quebrando linha dentro do botao
@@ -122,12 +122,12 @@ public class Tela_Principal {
 			}
 		});
 		btn_Adicionar.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
-		btn_Adicionar.setBounds(258, 432, 181, 50);
+		btn_Adicionar.setBounds(244, 384, 181, 50);
 		frame.getContentPane().add(btn_Adicionar);
 		
 		JButton btn_Mensagem = new JButton("MENSAGENS");
 		btn_Mensagem.setFont(new Font("Comic Sans MS", Font.BOLD, 19));
-		btn_Mensagem.setBounds(52, 506, 181, 50);
+		btn_Mensagem.setBounds(52, 455, 181, 50);
 		frame.getContentPane().add(btn_Mensagem);
 		
 		JButton btn_Logoff = new JButton("SAIR");
@@ -137,8 +137,19 @@ public class Tela_Principal {
 			}
 		});
 		btn_Logoff.setFont(new Font("Comic Sans MS", Font.BOLD, 19));
-		btn_Logoff.setBounds(258, 506, 181, 50);
+		btn_Logoff.setBounds(244, 545, 181, 50);
 		frame.getContentPane().add(btn_Logoff);
+		
+		JButton btn_EditarPerfil = new JButton("<html>EDITAR<br> PERFIL</html>");
+		btn_EditarPerfil.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	Tela_EditarPerfil editarPerfil = new Tela_EditarPerfil(Id_UsuarioLogado);
+                editarPerfil.setVisible(true);
+            }
+        });
+		btn_EditarPerfil.setFont(new Font("Comic Sans MS", Font.BOLD, 17));
+		btn_EditarPerfil.setBounds(244, 455, 181, 50);
+		frame.getContentPane().add(btn_EditarPerfil);
 	}
 	
 	/*
@@ -156,7 +167,7 @@ public class Tela_Principal {
 		telaPrincipal.frame.setVisible(true);
 	}
 
-	private void setVisible(boolean b) {
+	void setVisible(boolean b) {
 		frame.setVisible(true);
 	}
 }
