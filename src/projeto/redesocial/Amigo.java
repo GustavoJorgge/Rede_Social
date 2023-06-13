@@ -158,7 +158,9 @@ public class Amigo {
 	 */
 	void listar_Amigos(int id_Usuario) throws SQLException {
 		Connection connection = DriverManager.getConnection(url, user, password);
-		String QUERY_LISTAAMIGOS = "SELECT u.user_name AS nome_amigo, u.user_email AS email_amigo FROM lista_amigos la JOIN usuarios u ON u.id_user = la.id_amigo WHERE la.id_usuario =" + id_Usuario ;
+		String QUERY_LISTAAMIGOS = "SELECT u.user_name AS nome_amigo, u.user_email AS email_amigo FROM lista_amigos la JOIN usuarios u ON u.id_user = la.id_amigo WHERE la.id_usuario = " + id_Usuario +
+				" UNION " +
+				"SELECT u.user_name AS nome_amigo, u.user_email AS email_amigo FROM lista_amigos la JOIN usuarios u ON u.id_user = la.id_usuario WHERE la.id_amigo = " + id_Usuario;
 		PreparedStatement preparedStatement = connection.prepareStatement(QUERY_LISTAAMIGOS);
 		ResultSet resultSet = preparedStatement.executeQuery();
 		while(resultSet.next()) {
