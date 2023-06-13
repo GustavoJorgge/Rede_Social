@@ -1,0 +1,101 @@
+Script para o projeto da rede_social
+
+TABELA DE USUARIOS
+CREATE TABLE usuarios (
+  id_user SERIAL NOT NULL,
+  user_name VARCHAR(100) NOT NULL,
+  user_email VARCHAR(100) NOT NULL,
+  senha VARCHAR(20) NOT NULL,
+  endereco VARCHAR(250) DEFAULT NULL,
+  PRIMARY KEY (id_user)
+);
+ALTERANDO COLUNA ENDERECO PARA TEXTO
+alter table usuarios
+alter column endereco type text;
+
+INCLUINDO MAIS UMA COLUNA
+alter table usuarios
+add column data_criacao timestamp not null default current_timestamp;
+
+
+TABELA DE LISTA DE AMIGOS
+create table lista_amigos(
+	id_usuario int,
+	id_amigo int,
+	conexao TIMESTAMP not null default current_timestamp,
+	status_conexao varchar (15) not null default 'pendente'
+);
+
+//incluindo posteriormente a coluna id_lista_amigos
+ALTER TABLE lista_amigos
+ADD COLUMN id_lista_amigos INT AUTO_INCREMENT PRIMARY KEY;
+
+TABELA QUE ARMAZENA MENSAGENS
+create table mensagens(
+	id_mensagem serial not null,
+	id_rementente int not null,
+	id_destinatario int not null,
+	conteudo text not null,
+	data_envio timestamp not null default current_timestamp,
+	primary key (id_mensagem),
+	CONSTRAINT fk_remetente FOREIGN KEY (id_remetente) REFERENCES usuarios (id_user),
+  	CONSTRAINT fk_destinatario FOREIGN KEY (id_destinatario) REFERENCES usuarios (id_user)
+);
+
+TABELA COM TODAS CONVERSAS
+create table conversas(
+	id_conversa serial primary key,
+	id_usuario1 int not null,
+	id_usuario2 int not null,
+	data_conversa timestamp not null default current_timestamp,
+	CONSTRAINT fk_usuario1 FOREIGN KEY (id_usuario1) REFERENCES usuarios (id_user),
+ 	CONSTRAINT fk_usuario2 FOREIGN KEY (id_usuario2) REFERENCES usuarios (id_user)
+);
+
+INSERINDO VALORES EM USUARIOS
+insert into usuarios(user_name,user_email,senha,endereco)
+values('joao vitor', 'joaovitor@teste.com', 'teste123','rua guanabara, 333, Belo Horizonte - MG')
+
+insert into usuarios(user_name,user_email,senha,endereco)
+values('Maria vitoria', 'mariavitoria@teste.com', 'teste123','rua iguai, 432, Contagem - MG'),
+('Jose carlos', 'josecarlos@teste.com', 'teste123','rua california, 311, Belo Horizonte - MG'),
+('Luana Soares', 'luanasoares@teste.com', 'teste123','rua pampulha, 1999, Ibirite - MG');
+
+//script para mostrar todas as conexões do aplicativo
+SELECT u1.user_name AS usuario, u1.id_user AS id_usuario, u2.user_name AS amigo, u2.id_user AS id_amigo
+FROM lista_amigos la
+JOIN usuarios u1 ON la.id_usuario = u1.id_user
+JOIN usuarios u2 ON la.id_amigo = u2.id_user;
+
+
+//Script para desfazer a amizade 
+DELETE FROM lista_amigos WHERE id_usuario = id_Usuario AND id_amigo = id_Amigo ;
+
+// Script para mostrar todas as conexoes do usuario logado, mesmo quando outra pessoa conectar com ela
+SELECT u.user_name AS nome_amigo, u.user_email AS email_amigo
+FROM lista_amigos la
+JOIN usuarios u ON u.id_user = la.id_amigo
+WHERE la.id_usuario = ?
+
+UNION //unindo dois selects
+
+//lista de usuarios que se conectou com usuario logado
+SELECT u.user_name AS nome_amigo, u.user_email AS email_amigo
+FROM lista_amigos la
+JOIN usuarios u ON u.id_user = la.id_usuario
+WHERE la.id_amigo = ?;
+
+
+// Script alterar os dados
+// Alterar senha
+UPDATE usuarios SET senha = ? WHERE id_user = ?;
+
+// Alterar nome
+UPDATE usuarios SET user_name = ? WHERE id_user = ?;
+
+// Alterar E-mail
+UPDATE usuarios SET user_email = ? WHERE id_user = ?;
+
+//Para mais segurança, estou criando um tratamento de exceção para nao permitir e-mails repetidos
+ALTER TABLE usuarios
+ADD CONSTRAINT unique_email UNIQUE (user_email);

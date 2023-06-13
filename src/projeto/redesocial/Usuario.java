@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -122,21 +123,23 @@ public class Usuario extends Perfil {
 	 * Metodo que recebe por parametro o objeto usuario e cadastra no banco de dados
 	 */
 	public void cadastraUsuario(Usuario usuario) {
-		
-		try (Connection connection = DriverManager.getConnection(url, user, password);
-				PreparedStatement preparedStatement = connection.prepareStatement(QUERY_CADASTRAR)){//final do TRY
-					
-					preparedStatement.setString(1,getNome());
-					preparedStatement.setString(2,getEmail());
-					preparedStatement.setString(3,getPassword());
-					preparedStatement.setString(4,getEndereco());
-					
-					preparedStatement.executeUpdate();
-					preparedStatement.close();
-			        connection.close();
-			}catch(SQLException e) {
-				JOptionPane.showConfirmDialog(null, e);
-			}			
+	    try (Connection connection = DriverManager.getConnection(url, user, password);
+	         PreparedStatement preparedStatement = connection.prepareStatement(QUERY_CADASTRAR)) {
+	        
+	        preparedStatement.setString(1, usuario.getNome());
+	        preparedStatement.setString(2, usuario.getEmail());
+	        preparedStatement.setString(3, usuario.getPassword());
+	        preparedStatement.setString(4, usuario.getEndereco());
+	        
+	        preparedStatement.executeUpdate();
+	        preparedStatement.close();
+	        connection.close();
+	    } catch (SQLIntegrityConstraintViolationException e) {
+	    	//Tratando exceção caso o e-mail seja repetido
+	        JOptionPane.showMessageDialog(null, "O email informado já está em uso. Por favor, escolha outro email.");
+	    } catch (SQLException e) {
+	        JOptionPane.showMessageDialog(null, "Erro ao cadastrar usuário: " + e.getMessage());
+	    }
 	}
 	/*
 	 * Abaixo nos teremos os metodos que possibilitarão o usuario de editar um de seus dados cadastrais
