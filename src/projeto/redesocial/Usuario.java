@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
-
 import javax.swing.JOptionPane;
 
 public class Usuario extends Perfil {
@@ -24,6 +23,7 @@ public class Usuario extends Perfil {
 	private String email;
 	private String senha;
 	private String endereco;
+	private Date dta_criacao;
 	
 	public Usuario() {}
 	
@@ -31,7 +31,7 @@ public class Usuario extends Perfil {
 		super();		
 		this.nome = nome;
 		this.email = email;
-		 this.senha = senha;
+		this.senha = senha;
 		this.endereco = endereco;
 	}
 
@@ -71,12 +71,24 @@ public class Usuario extends Perfil {
 		return endereco;
 	}
 
+	public Date getDta_criacao() {
+		return dta_criacao;
+	}
+
+	public void setDta_criacao(Date dta_criacao) {
+		this.dta_criacao = dta_criacao;
+	}
+
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-
+	
+	
+	
 	void DeletarUsuario() {	
 	}
+	
+	
 	
 	
 	/*
@@ -140,6 +152,7 @@ public class Usuario extends Perfil {
 		PreparedStatement preparedStatement = connection.prepareStatement(QUERY_EDITAR_NOME);
         preparedStatement.executeUpdate();
         
+        JOptionPane.showMessageDialog(null,"Nome atualizado para: " + atualizacao ,"Atualizacao de Dados", JOptionPane.INFORMATION_MESSAGE);
         preparedStatement.executeUpdate();
 		preparedStatement.close();
         connection.close();
@@ -152,6 +165,7 @@ public class Usuario extends Perfil {
 		PreparedStatement preparedStatement = connection.prepareStatement(QUERY_EDITAR_EMAIL);
         preparedStatement.executeUpdate();
         
+        JOptionPane.showMessageDialog(null,"E-mail atualizado para: " + atualizacao ,"Atualizacao de Dados", JOptionPane.INFORMATION_MESSAGE);
         preparedStatement.executeUpdate();
 		preparedStatement.close();
         connection.close();
@@ -164,6 +178,7 @@ public class Usuario extends Perfil {
 		PreparedStatement preparedStatement = connection.prepareStatement(QUERY_EDITAR_SENHA);
         preparedStatement.executeUpdate();
         
+        JOptionPane.showMessageDialog(null,"Senha atualizada!","Atualizacao de Dados", JOptionPane.INFORMATION_MESSAGE);
         preparedStatement.executeUpdate();
 		preparedStatement.close();
         connection.close();
@@ -186,7 +201,6 @@ public class Usuario extends Perfil {
 	            String endereco = resultSet.getString("endereco");
 	            // Crie uma instância de Usuario e atribua valores a ela
 	            aux = new Usuario(nome, email, senha, endereco);
-	            JOptionPane.showMessageDialog(null,aux.getNome());
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();

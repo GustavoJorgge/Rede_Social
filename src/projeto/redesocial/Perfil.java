@@ -76,7 +76,7 @@ public class Perfil {
 		this.id = id;
 	}
 	
-	public Date getDta_criacao() {
+	public java.util.Date getDta_criacao() {
 		return dta_criacao;
 	}
 

@@ -16,40 +16,33 @@ import java.awt.Component;
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
 
-public class Tela_EditarPerfil {
+public class Tela_EditarPerfil extends Tela_Principal {
 	
 	Perfil perfil;
     JFrame frame;
     JTextField txt_Atualizacao;
     private Usuario usuario;
-    private static int idUsuarioLogado; // variavel da classe para realizar edições
+	private static int ID_UsuarioLogado;    
     
-    public Tela_EditarPerfil() {
-    	
-    }
-    
-  //Metodo para receber o id do usuario conectado
-  	public void setIdUsuario(int idUsuarioLogado) {
-  		this.idUsuarioLogado = idUsuarioLogado;
-  	}
-  	
-  	
-  	public int getIdUsuarioLogado() {
-  		return idUsuarioLogado;
-  	}
     
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                	Tela_EditarPerfil window = new Tela_EditarPerfil();
+            	int idUsuarioLogado = 1;
+                	Tela_EditarPerfil window = new Tela_EditarPerfil(idUsuarioLogado);
                    
                     window.frame.setVisible(true);
             }
         });
     }
-
-    public Tela_EditarPerfil(int i) {
-    	JOptionPane.showMessageDialog(null,idUsuarioLogado);
+    
+    /*
+     * Aqui estamos recebendo por parametro o ID do usuario logado
+     * e atribuindo a variavel ID_UsuarioLogado da classe o valor para realizar
+     * as movimentações adequadas
+     */
+    public Tela_EditarPerfil(int iDUsuarioLogado) {
+    	this.ID_UsuarioLogado = iDUsuarioLogado;
         initialize();
     }
 
@@ -82,19 +75,19 @@ public class Tela_EditarPerfil {
                 String atualizacao = txt_Atualizacao.getText();
                 if (cb_Alteracao.getSelectedItem().equals("Nome")) {
                     try {
-                        usuario.editarNome(idUsuarioLogado, atualizacao);
+                        usuario.editarNome(ID_UsuarioLogado, atualizacao);
                     } catch (SQLException e1) {
                         e1.printStackTrace();
                     }
                 } else if (cb_Alteracao.getSelectedItem().equals("E-mail")) {
                     try {
-                        usuario.editarEmail(idUsuarioLogado, atualizacao);
+                        usuario.editarEmail(ID_UsuarioLogado, atualizacao);
                     } catch (SQLException e1) {
                         e1.printStackTrace();
                     }
                 } else if (cb_Alteracao.getSelectedItem().equals("Senha")) {
                     try {
-                        usuario.editarSenha(idUsuarioLogado, atualizacao);
+                        usuario.editarSenha(ID_UsuarioLogado, atualizacao);
                     } catch (SQLException e1) {
                         e1.printStackTrace();
                     }
@@ -118,11 +111,13 @@ public class Tela_EditarPerfil {
         frame.getContentPane().add(btn_Voltar);
 
         JTextPane txt_Dados = new JTextPane();
+    	txt_Dados.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
         txt_Dados.setEditable(false);
         txt_Dados.setBounds(43, 113, 382, 139);
         frame.getContentPane().add(txt_Dados);       
-        usuario.obterPerfilUsuario(idUsuarioLogado);
-        txt_Dados.setText("Usuário: " + usuario.getNome() + "\nE-mail:" + usuario.getEmail() + "\nEndereco:" +usuario.getEndereco() + "\nUsuario criado em: " + usuario.getDta_criacao());
+     // chamando o metodo para obter todos os dados do usuario logado e armazenando em uma variavel auxiliar
+        Usuario aux = usuario.obterPerfilUsuario(ID_UsuarioLogado); 
+        txt_Dados.setText("Usuário: " + aux.getNome() + "\nE-mail:" + aux.getEmail() + "\nEndereco:" + aux.getEndereco());
 
         JLabel lbl_Dados = new JLabel("Seus dados:");
         lbl_Dados.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
@@ -139,7 +134,7 @@ public class Tela_EditarPerfil {
         frame.getContentPane().add(txt_Atualizacao);
         txt_Atualizacao.setColumns(10);
 
-        // Configurar inicialmente os campos e botões conforme a seleção inicial
+        // Bloqueando os campos e botões conforme a seleção inicial
         txt_Atualizacao.setEditable(false);
         btn_Editar.setEnabled(false);
         
@@ -172,6 +167,7 @@ public class Tela_EditarPerfil {
             }
         });
     }
+     
     public void setVisible(boolean b) {
 		frame.setVisible(true);		
 	}

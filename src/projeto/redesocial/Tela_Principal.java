@@ -19,9 +19,8 @@ public class Tela_Principal {
 	protected JTextPane txt_Dados;
 	private JLabel lbl_Id_User;
 	private JLabel lbl_User;
-	private int Id_UsuarioLogado; // variavel para armazenar o id do usuario logado
-	
-	
+	private static int Id_UsuarioLogado; // variavel para armazenar o id do usuario logado
+		
 	
 	   public Tela_Principal(int id_UsuarioLogado) {
 	        Id_UsuarioLogado = id_UsuarioLogado;
@@ -143,7 +142,7 @@ public class Tela_Principal {
 		JButton btn_EditarPerfil = new JButton("<html>EDITAR<br> PERFIL</html>");
 		btn_EditarPerfil.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	Tela_EditarPerfil editarPerfil = new Tela_EditarPerfil(Id_UsuarioLogado);
+            	Tela_EditarPerfil editarPerfil = new Tela_EditarPerfil(getId_UsuarioLogado());
                 editarPerfil.setVisible(true);
             }
         });
