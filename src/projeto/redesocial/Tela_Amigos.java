@@ -73,7 +73,7 @@ public class Tela_Amigos extends Tela_AdicionarAmigo {
 		frame.getContentPane().add(txt_ListaAmigos);
 		
 		Amigo amigo = new Amigo();
-		JOptionPane.showMessageDialog(null,idUsuarioLogado);
+		//JOptionPane.showMessageDialog(idUsuarioLogado);
 		amigo.listar_Amigos(idUsuarioLogado);
 		txt_ListaAmigos.setText(amigo.getListaAmigos().toString());
 		
@@ -83,6 +83,12 @@ public class Tela_Amigos extends Tela_AdicionarAmigo {
 		frame.getContentPane().add(lbl_TotalAmigos);
 		
 		JButton btn_DeletarAmigo = new JButton("<html>DESFAZER<br> AMIZADE</html>");
+		btn_DeletarAmigo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Tela_DesfazerAmizade telaDesfazerAmizade = new Tela_DesfazerAmizade(idUsuarioLogado);
+				
+			}
+		});
 		btn_DeletarAmigo.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
 		btn_DeletarAmigo.setBounds(30, 460, 136, 57);
 		frame.getContentPane().add(btn_DeletarAmigo);

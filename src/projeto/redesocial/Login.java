@@ -31,24 +31,25 @@ public class Login {
 	private final String QUERY_LOGAR = "SELECT COUNT(*) FROM usuarios WHERE user_email = ? AND senha = ?";
 			
 	public boolean ValidarLogin(String email, String senha) {
-        boolean loginValido = false;
-        Perfil perfil = null;
-        
-        try (Connection connection = DriverManager.getConnection(url, user, password);
-             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_LOGAR)) {
+	    boolean loginValido = false;
 
-            preparedStatement.setString(1, email);
-            preparedStatement.setString(2, senha);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                int count = resultSet.getInt(1);
-                loginValido = true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+	    try (Connection connection = DriverManager.getConnection(url, user, password);
+	         PreparedStatement preparedStatement = connection.prepareStatement(QUERY_LOGAR)) {
 
-        return loginValido;
-    }
-   
+	        preparedStatement.setString(1, email);
+	        preparedStatement.setString(2, senha);
+	        ResultSet resultSet = preparedStatement.executeQuery();
+
+	        if (resultSet.next()) {
+	            int count = resultSet.getInt("count");
+	            if (count > 0) {
+	                loginValido = true;
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return loginValido;
+	}
 }

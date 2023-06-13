@@ -20,7 +20,7 @@ public class Tela_AdicionarAmigo {
 	private JFrame frame;
 	private JTextField txt_BuscaUsuario;
 	private JTextField txt_ID_Add;
-	protected int idUsuarioLogado; // variavel para armazenar o id de quem esta conectado
+	protected static int idUsuarioLogado; // variavel para armazenar o id de quem esta conectado
 
 	//Metodo para receber o id do usuario conectado
 	public void setIdUsuario(int idUsuarioLogado) {

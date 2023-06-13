@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -77,32 +79,35 @@ public class Amigo {
 	    String QUERY_VALIDAR = "select * from usuarios where id_user = " + id_usuario; //Query para buscar o id do amigo digitado
 		PreparedStatement preparedStatement = connection.prepareStatement(QUERY_VALIDAR);
 		ResultSet resultSet = preparedStatement.executeQuery();
+		
+		List<Integer> idList = new ArrayList<>();
 
-	    while(resultSet.next()) {//loop para verificar todos usuarios
-	    	aux = resultSet.getInt("id_user");//armazenando o id do resultado da consulta
+		while (resultSet.next()) {//loop para verificar todos usuarios
+		    int id = resultSet.getInt("id_user");
+		    idList.add(id);//armazenando o id do resultado da consulta
 		}
 
-	    if (aux == id_usuario) {
+		if (idList.contains(id_amigo)) {
 	        JOptionPane.showMessageDialog(null, "Não é possível conectar consigo mesmo, entre com outro usuário!", "Erro!", JOptionPane.ERROR_MESSAGE);
-	    } else if (aux != 0) {
+		} else if (!idList.isEmpty()) {
 	    	//Query para validar se o usuario ja esta conectado
-	        String QUERY_VERIFICAR_EXISTENCIA = "SELECT COUNT(*) AS count FROM lista_amigos WHERE id_usuario =" + id_usuario +  "AND id_amigo =" + id_amigo;
-	        PreparedStatement preparedStatementVerificar = connection.prepareStatement(QUERY_VERIFICAR_EXISTENCIA);
-	        preparedStatementVerificar.setInt(1, id_usuario);
-	        preparedStatementVerificar.setInt(2, id_amigo);
-	        ResultSet resultSetVerificar = preparedStatementVerificar.executeQuery();
+			String QUERY_VERIFICAR_EXISTENCIA = "SELECT COUNT(*) AS count FROM lista_amigos WHERE id_usuario = ? AND id_amigo = ?";
+			PreparedStatement preparedStatementVerificar = connection.prepareStatement(QUERY_VERIFICAR_EXISTENCIA);
+			preparedStatementVerificar.setInt(1, id_usuario);
+			preparedStatementVerificar.setInt(2, id_amigo);
+			ResultSet resultSetVerificar = preparedStatementVerificar.executeQuery();
 	        
 	        if (resultSetVerificar.next()) {
 	            int count = resultSetVerificar.getInt("count");//recebendo o resultado da query
 	            if (count > 0) {//se for maior que 0 signifca que o usuario ja esta conectado
 	                JOptionPane.showMessageDialog(null, "Você já está conectado a esse amigo!", "Erro!", JOptionPane.ERROR_MESSAGE);
 	            } else {// se não executa a conexão entre amigos
-	                String QUERY_ADICIONAR = "INSERT INTO lista_amigos (id_usuario, id_amigo) VALUES (" + id_usuario + "," + id_amigo +")";
-	                PreparedStatement preparedStatementAdicionar = connection.prepareStatement(QUERY_ADICIONAR);
-	                preparedStatementAdicionar.setInt(1, id_usuario);
-	                preparedStatementAdicionar.setInt(2, id_amigo);
-	                preparedStatementAdicionar.executeUpdate();
-	                JOptionPane.showMessageDialog(null, "Adicionado com sucesso!");
+	            	String QUERY_ADICIONAR = "INSERT INTO lista_amigos (id_usuario, id_amigo) VALUES (?, ?)";
+	            	PreparedStatement preparedStatementAdicionar = connection.prepareStatement(QUERY_ADICIONAR);
+	            	preparedStatementAdicionar.setInt(1, id_usuario);
+	            	preparedStatementAdicionar.setInt(2, id_amigo);
+	            	preparedStatementAdicionar.executeUpdate();
+	            	JOptionPane.showMessageDialog(null, "Adicionado com sucesso!");
 	            }
 	        }
 	    } else {//Caso insira id invalido
@@ -152,10 +157,9 @@ public class Amigo {
 	 */
 	void listar_Amigos(int id_Usuario) throws SQLException {
 		Connection connection = DriverManager.getConnection(url, user, password);
-		String QUERY_LISTAAMIGOS = "SELECT u.user_name AS nome_amigo, u.user_email AS email_amigo FROM lista_amigos la JOIN usuarios u ON u.id_user = la.id_amigo WHERE la.id_usuario = " + id_Usuario + ";";
+		String QUERY_LISTAAMIGOS = "SELECT u.user_name AS nome_amigo, u.user_email AS email_amigo FROM lista_amigos la JOIN usuarios u ON u.id_user = la.id_amigo WHERE la.id_usuario =" + id_Usuario ;
 		PreparedStatement preparedStatement = connection.prepareStatement(QUERY_LISTAAMIGOS);
 		ResultSet resultSet = preparedStatement.executeQuery();
-		JOptionPane.showMessageDialog(null,id_Usuario);
 		while(resultSet.next()) {
 			String nome = resultSet.getString("nome_amigo");
 			String email = resultSet.getString("email_amigo");
@@ -180,5 +184,10 @@ public class Amigo {
 		
 		PreparedStatement preparedStatement = connection.prepareStatement(QUERY_DELETAR);
         preparedStatement.executeUpdate();
+        
+        JOptionPane.showMessageDialog(null,"Amizade desfeita!! ");
+        
+        preparedStatement.close();
+        connection.close();
 	}
 }
