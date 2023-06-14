@@ -47,7 +47,7 @@ public class Tela_DesfazerAmizade extends Tela_AdicionarAmigo{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Rede Social");
 		frame.setBounds(100, 100, 510, 621);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);

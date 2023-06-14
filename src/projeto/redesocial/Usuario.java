@@ -187,8 +187,11 @@ public class Usuario extends Perfil {
         connection.close();
 	}
 	
+	/*
+	 * Metodo para obter dados do usuario
+	 */
 	public Usuario obterPerfilUsuario(int idUsuario) {
-	    Usuario aux = null; // Inicialize a variável aux
+	    Usuario aux = null; // Iniciando a variável aux
 
 	    try (Connection connection = DriverManager.getConnection(url, user, password);
 	         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM usuarios WHERE Id_user = ?")) {
@@ -202,7 +205,7 @@ public class Usuario extends Perfil {
 	            String email = resultSet.getString("user_email");
 	            String senha = resultSet.getString("senha");
 	            String endereco = resultSet.getString("endereco");
-	            // Crie uma instância de Usuario e atribua valores a ela
+	            // Criando uma instancia de Usuario e atribuindo valores a ela
 	            aux = new Usuario(nome, email, senha, endereco);
 	        }
 	    } catch (SQLException e) {

@@ -12,6 +12,10 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.ScrollPaneConstants;
 
 public class Tela_Amigos extends Tela_AdicionarAmigo {
 
@@ -56,7 +60,7 @@ public class Tela_Amigos extends Tela_AdicionarAmigo {
 	 * @throws SQLException 
 	 */
 	private void initialize() throws SQLException {
-		frame = new JFrame();
+		frame = new JFrame("Rede Social");
 		frame.setBounds(100, 100, 486, 614);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -113,6 +117,11 @@ public class Tela_Amigos extends Tela_AdicionarAmigo {
 		btn_Voltar.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
 		btn_Voltar.setBounds(322, 460, 136, 57);
 		frame.getContentPane().add(btn_Voltar);
+		
+		JScrollPane scrollPane = new JScrollPane(txt_ListaAmigos);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBounds(60, 92, 347, 305);
+		frame.getContentPane().add(scrollPane);
 	}
 
 	public void setVisible(boolean b) {

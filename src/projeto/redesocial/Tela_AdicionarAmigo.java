@@ -5,10 +5,12 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -60,7 +62,7 @@ public class Tela_AdicionarAmigo {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Rede Social");
 		frame.setBounds(100, 100, 470, 595);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -83,8 +85,11 @@ public class Tela_AdicionarAmigo {
 		txt_BuscaUsuario.setColumns(10);
 		
 		JTextArea txt_ListUsuarios = new JTextArea();
+		txt_ListUsuarios.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 		txt_ListUsuarios.setEditable(false);
 		txt_ListUsuarios.setBounds(44, 170, 372, 215);
+		txt_ListUsuarios.setLineWrap(true); //fazendo que o campo quebre a linha automaticamente
+		txt_ListUsuarios.setWrapStyleWord(true); // fazendo com que o campo quebre a linha automaticamente
 		frame.getContentPane().add(txt_ListUsuarios);
 		
 		JLabel lbl_ID_Usuario = new JLabel("<html>ID do usuario que<br> deseja adicionar:</html>");
@@ -146,6 +151,11 @@ public class Tela_AdicionarAmigo {
 		btn_Buscar.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
 		btn_Buscar.setBounds(268, 125, 148, 35);
 		frame.getContentPane().add(btn_Buscar);
+		
+		JScrollPane scrollPane = new JScrollPane(txt_ListUsuarios);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBounds(23, 170, 393, 227);
+		frame.getContentPane().add(scrollPane);
 	}
 
 	public void setVisible(boolean b) {

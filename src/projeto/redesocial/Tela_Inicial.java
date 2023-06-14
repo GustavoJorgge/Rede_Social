@@ -11,12 +11,14 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class Tela_Inicial {
 
 	private JFrame frame;
 	private JTextField txt_Email;
-	private JTextField txt_Password;
+	//private JTextField txt_Password;
+	private JPasswordField txt_Password;
 
 	/**
 	 * Launch the application.
@@ -46,7 +48,7 @@ public class Tela_Inicial {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Rede Social");
 		frame.setBounds(100, 100, 508, 524);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -71,10 +73,9 @@ public class Tela_Inicial {
 		lbl_Password.setBounds(47, 162, 88, 28);
 		frame.getContentPane().add(lbl_Password);
 		
-		txt_Password = new JTextField();
-		txt_Password.setBounds(146, 160, 200, 39);
+		txt_Password = new JPasswordField();
+		txt_Password.setBounds(146, 160, 194, 39);
 		frame.getContentPane().add(txt_Password);
-		txt_Password.setColumns(10);
 		
 		JButton btn_Logar = new JButton("ENTRAR");
 		btn_Logar.addActionListener(new ActionListener() {
@@ -84,6 +85,7 @@ public class Tela_Inicial {
 				 txt_Email.setText("");//limpando banco apos realizar login
 			 }
 			 });
+		
 		btn_Logar.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
 		btn_Logar.setBounds(180, 234, 128, 39);
 		frame.getContentPane().add(btn_Logar);
@@ -103,6 +105,7 @@ public class Tela_Inicial {
 		btn_Cadastro.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
 		btn_Cadastro.setBounds(175, 350, 146, 28);
 		frame.getContentPane().add(btn_Cadastro);
+		
 	}
 	
 	/*

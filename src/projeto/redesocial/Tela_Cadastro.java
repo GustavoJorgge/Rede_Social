@@ -49,7 +49,7 @@ public class Tela_Cadastro {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Rede Social");
 		frame.setBounds(100, 100, 524, 638);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -69,7 +69,7 @@ public class Tela_Cadastro {
 		lbl_Email.setBounds(33, 387, 67, 26);
 		frame.getContentPane().add(lbl_Email);
 		
-		JLabel lbl_Endereco = new JLabel("Endereco");
+		JLabel lbl_Endereco = new JLabel("Endereço:");
 		lbl_Endereco.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
 		lbl_Endereco.setBounds(33, 153, 109, 26);
 		frame.getContentPane().add(lbl_Endereco);
