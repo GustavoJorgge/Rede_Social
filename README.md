@@ -1,9 +1,9 @@
 # Rede Social
 ## Fala Pessoal! 👋
-### Estou realizando a criação de um projeto que simula o funcionamento de uma Rede Social 🍃<br/> Este projeto ira possuir as seguintes funcionalidades: <br/> 
+### Estou realizando a criação de um projeto que simula o funcionamento de uma Rede Social 🍃<br/>   Este projeto ira possuir as seguintes funcionalidades: <br/> 
 
 ## Ferramentas
-
+- **Relatorio**: Neste arquivo possui informações de metodos e funcionalidades
 - **Conexão com banco:** Postgre
 - **IDE:** Eclipse
 - **Interface:** Swing GUI Designer
